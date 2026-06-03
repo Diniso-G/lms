@@ -1,0 +1,40 @@
+### Register a new user
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+    "name": "Samson DDJ", 
+    "email": "sddj@example.com",
+    "password": "2244f", 
+    "role": "student"
+}
+
+### Login user
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+    "name": "Samson DDJ",
+    "email": "sddj@example.com",
+    "password": "2244f"
+}
+
+### Test protectced Route (Get courses)
+GET http://localhost:3000/api/courses
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsImVtYWlsIjoic2RkakBleGFtcGxlLmNvbSIsInJvbGUiOiJzdHVkZW50IiwiaWF0IjoxNzY4NTY1NTU3LCJleHAiOjE3Njg1NjkxNTd9.ioGELS16wBBauPnTJz3tvwNh154Xl6uHAZvjPQHboNI
+
+### Create Course
+POST http://localhost:3000/api/courses
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsImVtYWlsIjoic2RkakBleGFtcGxlLmNvbSIsInJvbGUiOiJzdHVkZW50IiwiaWF0IjoxNzY4NTY1NTU3LCJleHAiOjE3Njg1NjkxNTd9.ioGELS16wBBauPnTJz3tvwNh154Xl6uHAZvjPQHboNI
+Content-Type: application/json
+
+{
+    "title": "Intro to physics",
+    "description": "The basics of physic",
+    "price": 300 
+}
+
+### Get Courses
+
+GET http://localhost:5000/courses
+Authorization: Bearer <your-token>

@@ -1,0 +1,257 @@
+/*General page styles*/
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f7fa;
+    margin: 0;
+    padding: 0;
+    color: #333
+}
+
+/*Nav bar*/
+.navbar {
+    display: flex;
+    padding: 15px 20px;
+    background-color: #1e40af;
+    color: white;
+    align-items: center;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+/*Main content container*/
+.container{
+    padding: 20px;
+}
+
+/*Welcome page*/
+.welcome {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 28px;
+    color: #1e40af;
+}
+
+/*Registration form*/
+.form-card {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    background-color: #f8f9fa;
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
+}
+
+.form-card h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+input, select, textarea {
+    padding: 10px;
+    margin: 6px 0;
+    border-radius: 5px;
+    border: 1px solid#ccc;
+    font-size: 16px;
+    width: 95%;
+    box-sizing: border-box;
+}
+input:focus, select:focus, textarea:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+button {
+width: 100px;
+padding: 10px;
+border-radius: 5px;
+border: none;
+background-color: #4CAF50;
+color: white;
+font-size: 16px;
+cursor: pointer;
+}
+
+button:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #222;
+}
+h2 {
+    margin-top: 30px;
+    margin-bottom: 15px;
+    color: #34496e;
+}
+
+/*Navigation*/
+nav {
+    background-color: #4CAF50;
+    padding: 10px;
+}
+
+nav a {
+    color: white;
+    margin-right: 15px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/*Form Styling*/
+form{
+    background-color: #fff;
+    padding: 20px;
+    max-width: 400px;
+    margin: 20px auto;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+form p {
+    margin-top: 10px;
+    color: #f44336;
+}
+
+.dashboard {
+    max-width: 1000px;
+    margin: 40px auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.course-list, .user-list {
+    list-style-type: none;
+    padding: 0;
+    width: 95%;
+}
+
+.course-item, .user-item {
+    padding: 12px 20px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.course-item p, .user-item p {
+    margin: 5px 0 0 0;
+    font-size: 14px;
+    color: #555;
+    width: 95%;
+}
+.course-item a {
+    margin-left: 10px;
+    color: #3498db;
+    text-decoration: none;
+    font-size: 14px;
+}
+.course-item a:hover {
+    text-decoration: underline;
+}
+.course-item .course-left {
+    flex: 1;
+}
+.course-item .course-right {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.course-item:last-child, .user-item:last-child {
+    border-bottom: none;
+}
+
+.btn{
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+.btn-logout {
+    background-color: #e74c3c;
+    color: #fff;
+    float: right;
+}
+
+.btn-logout:hover {
+    background-color: #c0392b;
+}
+
+.btn-enroll, .btn-desc, .btn-upload, .btn-delete, .btn-promote, .btn-demote {
+    background-color: #3498db;
+    color: #fff;
+}
+.btn-enroll:hover, .btn-desc:hover, .btn-upload:hover, .btn-delete:hover, .btn-promote:hover, .btn-demote:hover {
+    background-color: #2980b9;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-group input, .input-group textarea, .input-group select{
+    width: 95%;
+    padding: 12px 12px 12px 0;
+}
+
+.input-group label {
+    position: absolute;
+    top: 12px;
+    left: 0;
+    color: #999;
+    pointer-events: none;
+    transition: 0.2s ease all;
+}
+
+.input-group input:focus ~ label, .input-group input:not(:placeholder-shown) ~ label,
+.input-group textarea:focus ~ label, .input-group textarea:not(:placeholder-shown) ~ label,
+.input-group select:focus ~ label, .input-group select:not(:placeholder-shown) ~ label {
+    top: -10px;
+    font-size: 12px;
+    color: #4CAF50;
+    background-color: white;
+    padding: 0 4px;
+}
+
+.clearfix::after {
+    content: '';
+    display: table;
+    clear: both;
+}
