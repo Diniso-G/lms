@@ -14,9 +14,11 @@ function RegistrationForm(){
         e.preventDefault();
         try{
             const res = await axios.post('http://localhost:5000/api/auth/register', form);
-            setMessage(res.data.message);
+            setMessage(res.data.message || "Registration successful");
         } catch (err){
-            setMessage(err.response.data.error);
+            console.log("Register Error:", err);
+            const errorMessage = err.response?.data?.error || err.response?.data?.message || err.message || 'Registration failed';
+            setMessage(errorMessage);
         }
     };
     return(

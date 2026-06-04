@@ -26,7 +26,10 @@ function LoginForm(){
             else setMessage('Unknown role');
 
         } catch (err){
-            setMessage(err.response.data.error || 'Login failed');
+            console.log("Login Error:", err);
+
+            const errorMessage = err.response?.data?.error || err.response?.data?.message || err.message || 'Login failed';
+            setMessage(errorMessage);
         }
     };
     return(
