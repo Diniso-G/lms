@@ -71,7 +71,7 @@ if (!token) return <p>Please Login First</p>;
 if (loading) return <p> Loading courses...</p>;
 
 return (
-    <div className="dashboard">
+    <div className="dashboard page-enter">
         <h1>Student Dashboard</h1>
 
         <button className='btn btn-logout' onClick={logout}>Logout</button>

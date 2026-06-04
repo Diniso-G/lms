@@ -7,7 +7,7 @@ exports.createCourse = async (req, res) => {
         if (!title || !description){
             return res.status(400).json({message: 'Title and description are required'});
         }
-        const course = await Course.create({ title, description});
+        const course = await Course.create({ title, description, lecturerId: req.user.id});
         res.status(201).json({message: 'Course Created', course});
     } catch (err){
         console.error('Error! Creation error:', err);

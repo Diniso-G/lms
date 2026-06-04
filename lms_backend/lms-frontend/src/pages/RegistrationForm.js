@@ -22,7 +22,7 @@ function RegistrationForm(){
         }
     };
     return(
-        <div className="form-card">
+        <div className="form-card page-enter">
             <h2>Register</h2>
             <form onSubmit = {handleSubmit}>
             <div className="form-group">

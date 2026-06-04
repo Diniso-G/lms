@@ -100,7 +100,7 @@ if (!token)
     return <p>Please Login First</p>;
 
 return (
-    <div className="dashboard">
+    <div className="dashboard page-enter">
         <h1>Administrator Dashboard</h1>
 
         <button className="btn-logout" onClick={logout}>Logout</button>

@@ -19,6 +19,7 @@ function LoginForm(){
             const res = await axios.post('http://localhost:5000/api/auth/login', form);
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('role', res.data.role);
+            window.dispatchEvent(new Event('storage'));
 
             if (res.data.role === 'student') navigate('/dashboard');
             else if (res.data.role === 'lecturer') navigate('/lecturer-dashboard');
@@ -33,7 +34,7 @@ function LoginForm(){
         }
     };
     return(
-        <div className="form-card">
+        <div className="form-card page-enter">
             <h2>Login</h2>
             <form onSubmit = {handleSubmit} className="login-form">
             <div className="form-group">
