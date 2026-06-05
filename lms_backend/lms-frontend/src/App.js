@@ -11,6 +11,7 @@ import './styles/app.css';
 
 function WelcomePage(){
   return (
+
     <div className='welcome-section page-enter'>
       <span className='welcome-eyebrow'>Learning Management System</span>
       <h1 className='welcome-title'> Knowledge, <br /> <strong>delivered clearly.</strong>
@@ -55,6 +56,10 @@ function App(){
   //const token = localStorage.getItem('token');
     return ( 
     <Router>
+      <video autoPlay muted loop playsInline className='background-video'>
+        <source src='/videos/welcome-bg.mp4' type='video/mp4'/>
+      </video>
+      <div className='video-overlay'></div>
       <Navbar />
 
       {/*PAGE CONTENT*/}
