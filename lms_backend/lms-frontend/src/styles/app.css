@@ -134,7 +134,7 @@ html, body, #root {
 
 .btn-ghost{
     background: transparent;
-    color: var(--ink-primary);
+    color: var(--brand-mid);
     padding: 1px 24px;
     border-radius: var(--radius-md);
     border: 1.5px solid var(--brand-mid);
