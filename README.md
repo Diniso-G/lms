@@ -11,11 +11,13 @@ This project demonstrates full-stack development, REST APIs, authentication, dat
 - View enrolled courses
 - Access course documents uploaded by lecturer
 - Secure access through JWT authentication
+- Get assignments and upload submission and view grading
 
 ### Lecturer
 - Create new courses
 - Upload course documents
 - View uploaded documents per course
+- Send Assignments and assigng grading
 
 ### Administrator
 - View all system users
@@ -73,6 +75,7 @@ Authentication is handled using JSON Web Tokens (JWT).
 - Lecturers upload course documents
 - Files stored on the server ('/uploads')
 - Students can view documents for enrolled courses
+- Allows uploading assignments in specific documents
 
 ---
 
@@ -82,14 +85,77 @@ Main entities:
 - users
 - courses
 - usercourses
+- assignments
+- submissions
 
+---
+
+## Project structure
+
+```
+lms/
+|-- lms_backend/
+|   |-- config/
+|   |   |-- database.js
+|   |-- controllers/
+|   |   |-- admin.controller.js 
+|   |   |-- assignment.controller.js 
+|   |   |-- auth.controller.js 
+|   |   |-- course.controller.js 
+|   |-- lms-frontend/
+|   |   |-- public/
+|   |   |-- src/
+|   |   |   |-- pages/
+|   |   |   |   |-- AdminDashboard.js
+|   |   |   |   |-- DashboardPg.js
+|   |   |   |   |-- LecturerDashboard.js
+|   |   |   |   |-- LoginForm.js
+|   |   |   |   |-- RefistrationForm.js
+|   |   |   |-- styles/
+|   |   |   |   |-- app.css
+|   |   |   |-- App.css
+|   |   |   |-- App.js
+|   |   |   |-- App.test.js
+|   |   |   |-- index.css
+|   |   |   |-- index.js
+|   |   |   |-- logo.svg
+|   |   |   |-- reportWebVitals.js
+|   |   |   |-- setupTest.js
+|   |   |-- Applic.js 
+|   |   |-- package-lock.json
+|   |   |-- package.json 
+|   |-- middleware/
+|   |   |-- auth.middleware.js 
+|   |   |-- upload.middleware.js 
+|   |-- models/
+|   |   |-- Assignment.js 
+|   |   |-- Course.js 
+|   |   |-- Submission.js 
+|   |   |-- User.js 
+|   |   |-- index.js 
+|   |-- routes/
+|   |   |-- admin.routes.js 
+|   |   |-- assignment.routes.js 
+|   |   |-- auth.routes.js 
+|   |   |-- course.routes.js  
+|   |-- uploads/
+|   |   |-- courses/
+|   |   |-- submissions/
+|   |-- api_test.http 
+|   |-- index.js
+|   |-- package-lock.json
+|   |-- package.json
+|   |-- test-db.js  
+|   |-- .env  
+|-- README.md
+```
 ---
 
 ## Installation and Setup
 
 ### Clone the repository
 '''bash
-git clone https://github.com/your-username/lms-project.git
+git clone https://github.com/Diniso-G/lms-project.git
 cd lms-project
 
 ### Backend setup
