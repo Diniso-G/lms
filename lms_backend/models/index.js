@@ -3,8 +3,19 @@ const sequelize = require('../config/database');
 
 const User = require('./User');
 const Course = require('./Course');
+const Assignment = require('./Assignment');
+const Submission = require('./Submission');
 
 User.belongsToMany(Course, {through: 'UserCourses'});
 Course.belongsToMany(User, {through: 'UserCourses'});
 
-module.exports = {sequelize, User, Course};
+Course.hasMany(Assignment, {foreignKey: 'courseId'});
+Assignment.belongsTo(Course, {foreignKey: 'courseId'});
+
+Assignment.hasMany(Submission, {foreignKey: 'assignmentId'});
+Submission.belongsTo(Assignment, {foreignKey: 'assignmentId'});
+
+User.hasMany(Submission, {foreignKey: 'studentId'});
+Submission.belongsTo(User, {foreignKey: 'studentId'});
+
+module.exports = {sequelize, User, Course, Assignment, Submission};

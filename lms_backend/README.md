@@ -89,7 +89,7 @@ Main entities:
 
 ### Clone the repository
 '''bash
-git clone https://github.com/your-username/lms-project.git
+git clone https://github.com/Diniso-G/lms-project.git
 cd lms-project
 
 ### Backend setup

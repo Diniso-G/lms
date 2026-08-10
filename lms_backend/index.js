@@ -9,6 +9,8 @@ const authRoutes = require('./routes/auth.routes');
 const courseRoutes = require('./routes/course.routes');
 const adminRoutes = require('./routes/admin.routes');
 
+const assignmentRoutes = require('./routes/assignment.routes');
+
 const app = express();
 console.log('Starting LMS Server');
 
@@ -19,6 +21,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/uploads', express.static('uploads'));
+
+app.use('/api/assignments', assignmentRoutes);
 
 app.get('/', (req, res) => {
     res.send('LMS API running');
