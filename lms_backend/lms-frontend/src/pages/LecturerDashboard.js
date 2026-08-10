@@ -289,7 +289,7 @@ return (
                                                                 submissionsByAssignment[assignment.id].map(sub => (
                                                                     <li key={sub.id} className="submission-item">
                                                                         <span>{sub.User?.name} ({sub.User?.email})</span>
-                                                                        <a href={`http://localhost:5000/uploads/submissions/${sub.filePath}`} target="_blank" rel="noopener nonreferrer">
+                                                                        <a href={`http://localhost:5000/uploads/submissions/${sub.filePath}`} target="_blank" rel="noopener noreferrer">
                                                                         View File</a>
                                                                         <input type="number" placeholder="Grade" value={gradeInputs[sub.id]?.grade ?? sub.grade ?? ''} onChange={e => handleGradeChange(sub.id, 'grade', e.target.value)} />
                                                                         <input type="text" placeholder="Feedback" value={gradeInputs[sub.id]?.feedback ?? sub.feedback ?? ''} onChange={e => handleGradeChange(sub.id, 'feedback', e.target.value)} />

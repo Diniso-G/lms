@@ -13,6 +13,12 @@ function DashboardPg(){
     const [enrolledCourses, setEnrolledCourses] = useState([]);
     const [showDescription, setShowDescription] = useState({});
 
+    const [assignmentsByCourse, setAssignmentsByCourse] = useState({});
+    const [showAssignments, setShowAssignments] = useState({});
+    const [selectedFiles, setSelectedFiles] = useState({});
+    const [mySubmission, setMySubmission] = useState({});
+    
+
 useEffect(() => {
     axios.get("http://localhost:5000/api/courses", {
         headers: {Authorization: `Bearer ${token}`}
@@ -66,6 +72,64 @@ const logout = () => {
     localStorage.removeItem("token");
     navigate("/login");
 };
+
+const toggleAssignments = async (courseId) => {
+    const willShow = !showAssignments[courseId];
+    setShowAssignments(prev => ({ ...prev, [courseId]: willShow }));
+
+    if (willShow && !assignmentsByCourse[courseId]) {
+        try{
+            const res = await axios.get(`http://localhost:5000/api/assignments/course/${courseId}`, { headers: {Authorization: `Bearer ${token}`}}
+            );
+            setAssignmentsByCourse(prev => ({ ...prev, [courseId]: res.data}));
+            res.data.forEach(a => fetchMySubmission(a.id));
+        } catch (err) {
+            console.error(err);
+            alert(err.response?.data?.message || 'Failed to load assignments');
+        }
+    }
+
+};
+
+const fetchMySubmission= async (assignmentId) => {
+    try {
+        const res = await axios.get(`http://localhost:5000/api/assignments/${assignmentId}/my-submission`, {headers: {Authorization: `Bearer ${token}`}});
+        setMySubmission(prev => ({ ...prev, [assignmentId]: res.data}));
+    } catch (err) {
+        /*
+        console.error(err);
+        alert(err.response?.data?.message || 'Failed to load submissions');*/
+    }
+};
+
+const handleAssignmentFileChange = (assignmentId, file) => {
+    setSelectedFiles(prev => ({
+        ...prev, [assignmentId]: file
+    }));
+};
+
+const submitAssignment = async (assignmentId) => {
+    const file = selectedFiles[assignmentId];
+    if (!file) {
+        alert('Select a file first');
+        return;
+    }
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+        await axios.post(`http://localhost:5000/api/assignments/${assignmentId}/submit`,
+            formData, {headers: {Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data'}}
+        );
+        alert('Assignment submitted');
+        fetchMySubmission(assignmentId);
+    } catch (err) {
+        console.error(err);
+        alert(err.response?.data?.message || 'Failed to submit assignment');
+    }
+};
+
+
 if (!token) return <p>Please Login First</p>;
 
 if (loading) return <p> Loading courses...</p>;
@@ -112,9 +176,56 @@ return (
                         </div>
                         <div className="course-right">
                             {course.documentPath? (
-                                <a href={`http://localhost:5000/uploads/${course.documentPath}`}
+                                <a href={`http://localhost:5000/uploads/courses/${course.documentPath}`}
                                 target='_blank' rel = 'noopener noreferrer'> View Document</a>
                             ): <span> No document uploaded yet</span>}
+                        </div>
+
+                        <div className="assignment-section">
+                            <button className="btn btn-desc" onClick={() => toggleAssignments(course.id)}>
+                                {showAssignments[course.id] ? "Hide Assignments" : "Show Assignments"}
+                            </button>
+
+                            {showAssignments[course.id] && (
+                                (assignmentsByCourse[course.id] || []).length === 0 ? (
+                                    <p>No assignments yet</p>
+                                ) : (
+                                    <ul className="assignment-list">
+                                        {assignmentsByCourse[course.id].map(assignment => {
+                                            const submission = mySubmission[assignment.id];
+                                            return (
+                                                <li key={assignment.id} className="assignment-item">
+                                                    <strong>{assignment.title}</strong>
+                                                    <p>{assignment.description}</p>
+                                                    <small>Due: {new Date(assignment.dueDate).toLocaleDateString()}</small>
+
+                                                    {submission ? (
+                                                        <div>
+                                                            <p>Submitted {new Date(submission.submittedAt).toLocaleDateString()}</p>
+                                                            {submission.grade !== null ? (
+                                                                <p>Grade: {submission.grade} - {submission.feedback || 'No feedback'}</p>
+                                                            ) : (
+                                                                <p>Not graded yet</p>
+                                                            )}
+                                                            <input type="file" onChange={e => handleAssignmentFileChange(assignment.id, e.target.files[0])} />
+                                                            <button className="btn btn-upload" onClick={() => submitAssignment(assignment.id)}>
+                                                                Resubmit
+                                                            </button>
+                                                        </div>
+                                                    ) : (
+                                                        <div>
+                                                            <input type="file" onChange={e => handleAssignmentFileChange(assignment.id, e.target.files[0])} />
+                                                            <button className="btn btn-upload" onClick={() => submitAssignment(assignment.id)}>
+                                                                Submit
+                                                            </button>
+                                                        </div>
+                                                    )}
+                                                </li>
+                                            );
+                                        })}
+                                    </ul>         
+                                )
+                            )}
                         </div>
                     </li>
                 ))}
