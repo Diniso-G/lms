@@ -1,6 +1,6 @@
 //could be useless
 import React, {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, Link} from "react-router-dom";
 import axios from 'axios';
 import '../styles/app.css';
 
@@ -12,6 +12,9 @@ function LecturerDashboard(){
     const [loading, setLoading] = useState(true);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+
+    const [showForm, setShowForm] = useState(false);
+    /*
     const [selectedFiles, setSelectedFiles] = useState({});
 
     const [assignmentsByCourse, setAssignmentsByCourse] = useState({});
@@ -30,7 +33,7 @@ function LecturerDashboard(){
     const [showAnnouncements, setShowAnnouncements] = useState({});
     const [announcementByCourse, setAnnouncementsByCourse] = useState({});
     const [announcementInputs, setAnnouncementInputs] = useState({});
-
+*/
     useEffect(() => {
     axios.get("http://localhost:5000/api/courses", {
         headers: {Authorization: `Bearer ${token}`}
@@ -64,6 +67,7 @@ const createCourse = async () => {
     setCourses([...courses, res.data.course]);
     setTitle('');
     setDescription('');
+    setShowForm(false);
     } catch(err) {
         console.error('Error creating course', err)
         alert(err.response?.data?.message || "Failed to create course");
@@ -74,6 +78,24 @@ const logout = () => {
     navigate("/login");
 };
 
+const deleteCourse = async (courseId) => {
+    if (!window.confirm('Are you sure you want to delete this course?')){
+        return;
+    }
+    try {
+        await axios.delete(
+            `http://localhost:5000/api/courses/${courseId}`, 
+            {headers: {Authorization: `Bearer ${token}`} }
+        );
+
+        setCourses(prev => prev.filter(c => c.id !== courseId));
+        alert('Course deleted');
+    } catch (err) {
+        console.error(err);
+        alert(err.response?.data?.message || 'Failed to delete course');
+    }
+};
+/*
 const handleFileChange = (courseId, file) => {
     setSelectedFiles(prev => ({ ...prev, [courseId]: file}));
 };
@@ -258,12 +280,12 @@ const toggleAssignments = async (courseId) => {
 const toggleAssignmentForm = (courseId) => {
     setShowAssignmentForm(prev => ({ ...prev, [courseId]: !prev[courseId] }));
 };
-/*
+
 const handleAssignmentInputChange = (courseId, field, value) => {
     setShowAssignmentForm(prev => ({
         ...prev, [courseId]: {...prev[courseId], [field]: value}
     }));
-};*/
+};
 
 const createAssignment = async (courseId) => {
     const ttl = assignmentTitle[courseId];
@@ -327,18 +349,25 @@ const submitGrade = async (assignmentId, submissionId) => {
         alert(err.response?.data?.message || 'Failed to grade Submission');
     }
 };
-
+*/
 if (!token) return <p>Please Login First</p>;
 
 if (loading) return <p> Loading courses...</p>;
 
 return (
     <div className="dashboard page-enter">
-        <h1>Lecturer Dashboard</h1>
+        <div className="detail-header">
+            <span className="welcome-eyebrow">Lecturer Dashboard</span>
+            <h1>My Courses</h1>
 
-        <button className="btn btn-logout" onClick={logout}>Logout</button>
-        <h2>Create new Courses</h2>
-        <div className="form-card"> 
+            <button className="btn btn-logout" onClick={logout}>Logout</button>
+        </div>
+        <button className="btn btn-desc" onClick={() => setShowForm(prev => !prev)}>
+            {showForm ? "Cancel" : "+ New Course"}
+        </button>
+
+        {showForm && (
+            <div className="form-card"> 
             <div className="input-group">
                 <input type="text"
                     placeholder=""
@@ -357,6 +386,8 @@ return (
             <br />
             <button className="btn btn-enroll" onClick={createCourse}>Create Course</button>
         </div>
+        )}
+        {/*
         <h2>All Courses</h2>
         {courses.length === 0 ? 
             <p>No courses yet</p> : (
@@ -532,6 +563,41 @@ return (
                     </li>
                 ))}
             </ul>
+        )}
+        */}
+        <h2>All Courses</h2>
+        {courses.length === 0 ? (
+            <p> No courses yet</p>
+        ) : (
+            <div className="course-grid">
+                {courses.map(c => (
+                    <div key={c.id} className="course-card">
+                        <div>
+                            <h3 className="course-card-title">{c.title}</h3>
+                            <span className={c.documentPath ? "badge" : "badge badge-muted"}>
+                                {c.documentPath ? "Document uploaded" : " No document"}
+                            </span>
+                        </div>
+                        <p className="course-card-desc">{c.description}</p>
+                        <div className="course-card-actions">
+                            <Link className="link-btn" to={`/lecturer/course/${c.id}`} state={{ courseTitle: c.title}}>
+                                Manage
+                            </Link>
+                            <Link className="link-btn link-btn-outline" to={`/lecturer/course/${c.id}/assignments`} state={{ courseTitle: c.title}}>
+                                Assignment
+                            </Link>
+                            <Link className="link-btn link-btn-outline" to={`/lecturer/course/${c.id}/announcements`} state={{ courseTitle: c.title}}>
+                                Announcement
+                            </Link>
+                        </div>
+                        <div className="course-card-footer">
+                            <button className="btn btn-delete" onClick={() => deleteCourse(c.id)}>
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                ))}
+            </div>
         )}
     </div>
 );

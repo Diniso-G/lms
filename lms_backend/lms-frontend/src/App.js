@@ -6,6 +6,9 @@ import LoginForm from './pages/LoginForm';
 import DashboardPg from './pages/DashboardPg';
 import LecturerDashboard from './pages/LecturerDashboard';
 import AdminDashboard from './pages/AdminDashboard';
+import CourseDetailLecturer from './pages/CourseDetailLecturer';
+import AssignmentsLecturer from './pages/AssignmentsLecturer';
+import AnnouncementsLecturer from './pages/AnnouncementsLecturer';
 
 import './styles/app.css';
 
@@ -70,6 +73,9 @@ function App(){
           <Route path='/login' element={<LoginForm/>}/>
           <Route path='/dashboard' element={<DashboardPg/>}/>
           <Route path='/lecturer-dashboard' element={<LecturerDashboard/>}/>
+          <Route path='/lecturer/course/:id' element={<CourseDetailLecturer/>}/>
+          <Route path='/lecturer/course/:id/assignments' element={<AssignmentsLecturer/>}/>
+          <Route path='/lecturer/course/:id/announcements' element={<AnnouncementsLecturer/>}/>
           <Route path='/admin-dashboard' element={<AdminDashboard/>}/>
         </Routes>
       </div>
