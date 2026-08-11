@@ -29,6 +29,21 @@ exports.getCourses = async (req, res) => {
     }
 };
 
+exports.getCourseById = async (req, res) => {
+    try {
+        const courseId = req.params.id;
+        const course = await Course.findByPk(courseId, { attributes: ['id', 'title', 'description', 'documentPath', 'lecturerId']});
+
+        if (!course) {
+            return res.status(404).json({message: "Course not found"});
+        }
+        res.status(200).json(course);
+    } catch (err) {
+        console.error("Error frtching curse error", err);
+        res.status(500).json({ message: 'Server error'});
+    }
+};
+
 //ENROL IN COURSE
 exports.enrolCourse = async (req, res) => {
     try{

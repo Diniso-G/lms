@@ -11,9 +11,9 @@ function CourseDetailLecturer(){
 
     const [course, setCourse] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [selectedFile, setSelectedFile] = useState(null);
+    //const [title, setTitle] = useState('');
+    //const [description, setDescription] = useState('');
+    const [selectedFile, setSelectedFile] = useState({});
     
     const [showEditForm, setShowEditForm] = useState(false);
     const [editInputs, setEditInputs] = useState({});
@@ -40,7 +40,7 @@ function CourseDetailLecturer(){
     };
 
     const uploadDocument = async (courseId) => {
-        const file = selectedFile;
+        const file = selectedFile[courseId];
         if (!file) {
             alert("Please select a file first");
             return;
@@ -131,7 +131,7 @@ function CourseDetailLecturer(){
         setShowStudents(prev => ({ ...prev, [courseId]: willShow}));
         if (willShow && !studentsByCourse[courseId]) {
             try{
-                const res = await axios.get(`http://localhost:5000/api/courses/${courseId}`,
+                const res = await axios.get(`http://localhost:5000/api/courses/${courseId}/students`,
                     {headers: {Authorization: `Bearer ${token}`} }
                 );
                 setStudentsByCourse(prev => ({ ...prev, [courseId]: res.data}));
@@ -155,10 +155,10 @@ function CourseDetailLecturer(){
                 </div>
 
                 <div className="course-card-actions">
-                    <Link className="link-btn link-btn-outline" to={`/lecturer/${id}/assignments`} state={{courseTitle: course.title}}>
+                    <Link className="link-btn link-btn-outline" to={`/lecturer/course/${id}/assignments`} state={{courseTitle: course.title}}>
                         Assignments
                     </Link>
-                    <Link className="link-btn link-btn-outline" to={`/lecturer/${id}/announcements`} state={{courseTitle: course.title}}>
+                    <Link className="link-btn link-btn-outline" to={`/lecturer/course/${id}/announcements`} state={{courseTitle: course.title}}>
                         Announcements
                     </Link>
                 </div>
@@ -173,7 +173,7 @@ function CourseDetailLecturer(){
                     View current document
                 </a></p>
             )}
-            <input type='file' onChange={e => handleFileChange(e.target.files[0])}/>
+            <input type='file' onChange={e => handleFileChange(course.id, e.target.files[0])}/>
             <button className="btn btn-upload" onClick={() =>uploadDocument(course.id)}>
                 Upload Document
             </button>
