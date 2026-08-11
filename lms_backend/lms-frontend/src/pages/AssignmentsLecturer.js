@@ -26,7 +26,7 @@ function AssignmentsLecturer(){
     const [gradeInputs, setGradeInputs] = useState({});
 
     useEffect(() => {
-    axios.get(`http://localhost:5000/api/assignments/courses/${id}`, {
+    axios.get(`http://localhost:5000/api/assignments/course/${id}`, {
         headers: {Authorization: `Bearer ${token}`}
     })
     .then(res => {
@@ -46,7 +46,7 @@ const toggleAssignments = async (courseId) => {
 
     if (willShow && !assignmentsByCourse[courseId]) {
         try{
-            const res = await axios.get(`http://localhost:5000/api/assignments/courses/${id}`, { headers: {Authorization: `Bearer ${token}`}}
+            const res = await axios.get(`http://localhost:5000/api/assignments/course/${id}`, { headers: {Authorization: `Bearer ${token}`}}
             );
             setAssignmentsByCourse(prev => ({ ...prev, [courseId]: res.data}));
         } catch (err) {

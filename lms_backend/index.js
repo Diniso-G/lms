@@ -25,7 +25,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/uploads', express.static('uploads'));
 
 app.use('/api/assignments', assignmentRoutes);
-app.use('/api/announcement', announcementRoutes);
+app.use('/api/announcements', announcementRoutes);
 
 app.get('/', (req, res) => {
     res.send('LMS API running');

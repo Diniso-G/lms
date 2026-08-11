@@ -132,7 +132,7 @@ exports.getEnrolledStudents = async (req, res) => {
 
         if (course.lecturerId !== req.user.id) return res.status(403).json({ message: 'Not authorised for this course'});
 
-        res.status(200).json(course.User);
+        res.status(200).json(course.Users);
     } catch (err){
         console.error('Error! Fetching students error', err);
         res.status(500).json({message: 'Server error'});

@@ -11,13 +11,13 @@ function AnnouncementsLecturer(){
     const courseTitle = location.state?.courseTitle || 'Course';
 
     const [loading, setLoading] = useState(true);
-    const [showAnnouncements, setShowAnnouncements] = useState({});
+    //const [showAnnouncements, setShowAnnouncements] = useState({});
     const [announcementByCourse, setAnnouncementsByCourse] = useState({});
     const [announcementInputs, setAnnouncementInputs] = useState({});
     
 
     useEffect(() => {
-    axios.get(`http://localhost:5000/api/announcenments/courses/${courseId}`, {
+    axios.get(`http://localhost:5000/api/announcements/course/${courseId}`, {
         headers: {Authorization: `Bearer ${token}`}
     })
     .then(res => {
@@ -30,7 +30,7 @@ function AnnouncementsLecturer(){
         setLoading(false);
     });
 }, [courseId, token]);
-
+/*
 const toggleAnnouncements = async (courseId) => {
     const willShow = !showAnnouncements[courseId];
     setShowAnnouncements(prev => ({ ...prev, [courseId]: willShow}));
@@ -44,7 +44,7 @@ const toggleAnnouncements = async (courseId) => {
             alert(err.response?.data?.message || 'Failed to load announcements');
         }
     }
-};
+};*/
 
 const handleAnnouncementInputChange = (courseId, value) => {
     setAnnouncementInputs(prev => ({ ...prev, [courseId]: value}));

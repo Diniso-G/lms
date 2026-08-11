@@ -7,7 +7,7 @@ exports.createAnnouncement = async (req, res) => {
 
         if (!content) return res.status(400).json({ message: 'Content is required'});
 
-        const course = await User.findByPk(courseId);
+        const course = await Course.findByPk(courseId);
         if (!course) return res.status(404).json({ message: 'Course nor found'});
 
         if (course.lecturerId !== req.user.id) return res.status(403).json({ message: 'Not authorised for this course'});
