@@ -27,4 +27,10 @@ router.get('/', auth, courseController.getCourses);
 router.post('/:id/enrol', auth, courseController.enrolCourse);
 //student courses
 router.get('/enrolled/my', auth, courseController.getMyCourses);
+
+router.put('/:id', auth, courseController.updateCourse);
+router.delete('/:id', auth, courseController.deleteCourse);
+router.delete('/:id/enrol', auth, courseController.unenrolCourse);
+router.get('/:id/students', auth, courseController.getEnrolledStudents);
+
 module.exports = router;

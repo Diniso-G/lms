@@ -6,6 +6,8 @@ const Course = require('./Course');
 const Assignment = require('./Assignment');
 const Submission = require('./Submission');
 
+const Announcement = require('./Announcement');
+
 User.belongsToMany(Course, {through: 'UserCourses'});
 Course.belongsToMany(User, {through: 'UserCourses'});
 
@@ -18,4 +20,7 @@ Submission.belongsTo(Assignment, {foreignKey: 'assignmentId'});
 User.hasMany(Submission, {foreignKey: 'studentId'});
 Submission.belongsTo(User, {foreignKey: 'studentId'});
 
-module.exports = {sequelize, User, Course, Assignment, Submission};
+Course.hasMany(Announcement, {foreignKey: 'courseId'});
+Announcement.belongsTo(Course, {foreignKey: 'courseId'});
+
+module.exports = {sequelize, User, Course, Assignment, Submission, Announcement};
