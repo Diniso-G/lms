@@ -13,12 +13,12 @@ function AssignmentsLecturer(){
     const [loading, setLoading] = useState(true);
     const [assignmentTitle, setAssignmentTitle] = useState({});
 
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [selectedFiles, setSelectedFiles] = useState({});
+    //const [title, setTitle] = useState('');
+    //const [description, setDescription] = useState('');
+    //const [selectedFiles, setSelectedFiles] = useState({});
 
     const [assignmentsByCourse, setAssignmentsByCourse] = useState({});
-    const [showAssignments, setShowAssignments] = useState({});
+    //const [showAssignments, setShowAssignments] = useState({});
     const [showAssignmentForm, setShowAssignmentForm] = useState({});
     const [assignmentDescription, setAssignmentDescription] = useState({});
     const [assignmentDueDate, setAssignmentDueDate] = useState({});
@@ -40,6 +40,7 @@ function AssignmentsLecturer(){
     });
 }, [id, token]);
 
+/*
 const toggleAssignments = async (courseId) => {
     const willShow = !showAssignments[courseId];
     setShowAssignments(prev => ({ ...prev, [courseId]: willShow }));
@@ -55,7 +56,7 @@ const toggleAssignments = async (courseId) => {
         }
     }
 
-};
+};*/
 
 const toggleAssignmentForm = (courseId) => {
     setShowAssignmentForm(prev => ({ ...prev, [courseId]: !prev[courseId] }));
