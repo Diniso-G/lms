@@ -7,9 +7,12 @@ router.use(auth);
 
 router.get('/users', auth, adminController.getAllUsers);
 router.get('/courses', auth, adminController.getAllCourses);
+router.get('/lecturers', adminController.getLecturers);
+router.get('/stats', adminController.getStats);
 
 router.delete('/users/:id', adminController.deleteUser);
 router.delete('/courses/:id', adminController.deleteCourse);
 router.put('/users/:id/role', adminController.changeUserRole);
+router.put('/courses/:id/lecturer', adminController.assignLecturer);
 
 module.exports = router;

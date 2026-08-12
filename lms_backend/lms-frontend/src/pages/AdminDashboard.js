@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, Link} from "react-router-dom";
 import axios from 'axios';
 import '../styles/app.css';
 
 function AdminDashboard(){
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
-
+/*
     const [courses, setCourses] = useState([]);
     const [users, setUsers] = useState([]);
     const [loadingUser, setLoadingUser] = useState(true);
@@ -14,22 +14,25 @@ function AdminDashboard(){
     const [showUsers, setShowUsers] = useState(false);
 
     const [visibleCourses, setVisibleCourses] = useState({});
+   */
+    const [stats, setStats] = useState(null);
+    const [loading, setLoading] = useState(true);
     
     useEffect(() => {
-    axios.get("http://localhost:5000/api/admin/users", {
+    axios.get("http://localhost:5000/api/admin/stats", {
         headers: {Authorization: `Bearer ${token}`}
     })
     .then(res => {
-        setUsers(res.data);
-        setLoadingUser(false);
+        setStats(res.data);
+        setLoading(false);
     })
     .catch(err => {
-        console.error('Error fetching errr:', err);
-        setLoadingUser(false);
+        console.error('Error fetching stats:', err);
+        setLoading(false);
     });
 }, [token]);
 
-useEffect(() => {
+/*useEffect(() => {
     axios.get("http://localhost:5000/api/admin/courses", {
         headers: {Authorization: `Bearer ${token}`}
     })
@@ -86,24 +89,33 @@ const changeUserRole = (userId, newRole) => {
         alert(err.response?.data?.message || "Failed to change role")
     });
 };
-const logout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
-};
+
 const toggleCourseDescription = (courseId) => {
     setVisibleCourses((prev) => ({
         ...prev, [courseId]: !prev[courseId],
     }));
 };
+*/
 
-if (!token)
-    return <p>Please Login First</p>;
+const logout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+};
+
+if (!token) return <p>Please Login First</p>;
+
+if (loading) return <p>Loading dashboard...</p>;
 
 return (
     <div className="dashboard page-enter">
-        <h1>Administrator Dashboard</h1>
-
-        <button className="btn-logout" onClick={logout}>Logout</button>
+        <div className="detail-header">
+            <div>
+                <span className="welcome-eyebrow">Administrator Dashboard</span>
+                <h1>System Overview</h1>
+            </div>
+            <button className="btn-logout" onClick={logout}>Logout</button>
+        </div>
+        {/*
         <h2>All Courses</h2>
         {loadingCourses ? <p> Loading courses...</p> :
             courses.length === 0 ? 
@@ -165,12 +177,38 @@ return (
                 ))}
             </ul>
         )}
-        </>
-    )}
-        
-</div>
-);
-    
+        </>*/}
+        {stats && (
+            <div className="course-grid">
+                <div className="course-card">
+                    <h3 className="course-card-title">{stats.totalUsers}</h3>
+                    <span className="badge">Total Users</span>
+                    <p className="course-card-desc">
+                        {stats.totalStudents} students - {stats.totalLecturers} lecturers - {stats.totalAdmins} administrators
+                    </p>
+                </div>
+                <div className="course-card">
+                    <h3 className="course-card-title">{stats.totalCourses}</h3>
+                    <span className="badge">Total Courses</span>
+                </div>
+                <div className="course-card">
+                    <h3 className="course-card-title">{stats.totalEnrollments}</h3>
+                    <span className="badge">Total Enrollments</span>
+                </div>
+                <div className="course-card">
+                    <h3 className="course-card-title">{stats.totalSubmissions}</h3>
+                    <span className="badge">Total Submissions</span>
+                </div>
+            </div>
+        )}
+
+        <h2>Manage</h2>
+        <div className="course-card-actions">
+            <Link className="link-btn" to="/admin/courses">Courses</Link>
+            <Link className="link-btn" to="/admin/users">Users</Link>
+        </div>
+    </div>
+);            
 }
 export default AdminDashboard;
 

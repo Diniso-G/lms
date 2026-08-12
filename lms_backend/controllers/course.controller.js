@@ -20,6 +20,7 @@ exports.createCourse = async (req, res) => {
 exports.getCourses = async (req, res) => {
     try{
         const courses = await Course.findAll({
+            where: { lecturerId: req.user.id},
             attributes: ['id', 'title', 'description', 'documentPath']
         });
         res.status(200).json(courses);

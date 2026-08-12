@@ -23,4 +23,7 @@ Submission.belongsTo(User, {foreignKey: 'studentId'});
 Course.hasMany(Announcement, {foreignKey: 'courseId'});
 Announcement.belongsTo(Course, {foreignKey: 'courseId'});
 
+User.hasMany(Course, {foreignKey: 'lecturerId', as: 'coursesTaught'});
+Course.belongsTo(User, {foreignKey: 'lecturerId', as: 'lecturer'});
+
 module.exports = {sequelize, User, Course, Assignment, Submission, Announcement};

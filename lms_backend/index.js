@@ -38,7 +38,8 @@ setInterval(() => {
 sequelize.authenticate()
 .then(() => {
     console.log('MySQL connected'); 
-    return sequelize.sync({ alter:true });
+    //return sequelize.sync({ alter:true });
+    return sequelize.sync();
 })
 .then(() => {
     console.log('Models synced');

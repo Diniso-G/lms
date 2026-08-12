@@ -10,7 +10,7 @@ const Course = sequelize.define('Course', {
     description: {
         type: DataTypes.TEXT, allowNull:false},
     lecturerId: {
-        type: DataTypes.INTEGER, allowNull:false},
+        type: DataTypes.INTEGER, allowNull:true},
     documentPath: {
         type: DataTypes.STRING, allowNull:true
     }
