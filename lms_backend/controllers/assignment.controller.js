@@ -29,6 +29,21 @@ exports.createAssignment = async (req, res) => {
 exports.getAssignmentsForCourse = async (req, res) => {
     try {
         const courseId = req.params.courseId;
+        const course = await Course.findByPk(courseId);
+
+        if(!course) {
+            return res.status(404).json({message: 'Course not found'});
+        }
+
+        if(req.user.role === 'student') {
+            const student = await User.findByPk(req.user.id);
+            const isEnrolled = await course.hasUser(student);
+
+            if(!isEnrolled) {
+                return res.status(403).json({message: 'You are not enrolled in this course'});
+            }
+        }
+
         const assignments = await Assignment.findAll({
             where: {courseId}, attributes: ['id', 'title', 'description', 'dueDate']
         });

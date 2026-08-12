@@ -7,24 +7,29 @@ This project demonstrates full-stack development, REST APIs, authentication, dat
 
 ### Student
 - View all available courses in the system
-- Enroll in available courses
+- Enroll and uneroll from available courses
 - View enrolled courses
 - Access course documents uploaded by lecturer
 - Secure access through JWT authentication
+- View announcements posted by the lecturer
+- View assignments for enrolled courses, submit/resubmit work and view grades and feedback once graded
 - Get assignments and upload submission and view grading
 
 ### Lecturer
-- Create new courses
-- Upload course documents
-- View uploaded documents per course
-- Send Assignments and assigng grading
+- Create, edit and delete their own courses
+- Upload and view course documents
+- Create Assignments, view student submissions and assign grades with feedback
+- View the list of documents enrolled in their courses
+- Post and delete anooucnements per course
 
 ### Administrator
 - View all system users
-- Promote or demote user roles
-- View all courses
+- Promote, demote or change user's role user roles
+- View all courses including which lecturers is assigned to each
+- Assign or reassign a lecturer to a course
 - Delete courses
 - Delete/remove users
+- View system-wide stats such as total users, total courses, total enrollments and total submissions
 
 ---
 
@@ -87,6 +92,7 @@ Main entities:
 - usercourses
 - assignments
 - submissions
+- annoucements
 
 ---
 
@@ -99,6 +105,7 @@ lms/
 |   |   |-- database.js
 |   |-- controllers/
 |   |   |-- admin.controller.js 
+|   |   |-- announcement.controller.js 
 |   |   |-- assignment.controller.js 
 |   |   |-- auth.controller.js 
 |   |   |-- course.controller.js 
@@ -106,7 +113,15 @@ lms/
 |   |   |-- public/
 |   |   |-- src/
 |   |   |   |-- pages/
+|   |   |   |   |-- AdminCourses.js
 |   |   |   |   |-- AdminDashboard.js
+|   |   |   |   |-- AdminUsers.js
+|   |   |   |   |-- AnnoucementsLecturer.js
+|   |   |   |   |-- AnnoucementsStudent.js
+|   |   |   |   |-- AssignmentsLecturer.js
+|   |   |   |   |-- AssignmentsStudents.js
+|   |   |   |   |-- CourseDetailLecturer.js
+|   |   |   |   |-- CourseDetailStudent.js
 |   |   |   |   |-- DashboardPg.js
 |   |   |   |   |-- LecturerDashboard.js
 |   |   |   |   |-- LoginForm.js
@@ -128,6 +143,7 @@ lms/
 |   |   |-- auth.middleware.js 
 |   |   |-- upload.middleware.js 
 |   |-- models/
+|   |   |-- Annoucement.js 
 |   |   |-- Assignment.js 
 |   |   |-- Course.js 
 |   |   |-- Submission.js 
@@ -135,6 +151,7 @@ lms/
 |   |   |-- index.js 
 |   |-- routes/
 |   |   |-- admin.routes.js 
+|   |   |-- annoucement.routes.js 
 |   |   |-- assignment.routes.js 
 |   |   |-- auth.routes.js 
 |   |   |-- course.routes.js  
@@ -154,20 +171,27 @@ lms/
 ## Installation and Setup
 
 ### Clone the repository
-'''bash
+```bash
 git clone https://github.com/Diniso-G/lms-project.git
 cd lms-project
+```
 
 ### Backend setup
+```bash
 cd backend
 npm install
 npm run dev
+```
 
-http://localhost:5000
+Runs at `http://localhost:5000`
 
 ### Frontend set
+```bash
 cd frontend
 npm install
-nmp start
+npm start
+```
 
-http://localhost:3000
+Runs at `http://localhost:3000`
+
+DINISO GWABENI

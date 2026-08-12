@@ -19,10 +19,17 @@ exports.createCourse = async (req, res) => {
 //GET ALL COURSES
 exports.getCourses = async (req, res) => {
     try{
-        const courses = await Course.findAll({
-            where: { lecturerId: req.user.id},
-            attributes: ['id', 'title', 'description', 'documentPath']
-        });
+        let courses;
+        if (req.user.role === 'lecturer') {
+            courses = await Course.findAll({
+                where: { lecturerId: req.user.id},
+                attributes: ['id', 'title', 'description', 'documentPath']
+            });
+        } else {
+            courses = await Course.findAll({
+                attributes: ['id', 'title', 'description', 'documentPath']
+            });
+        }
         res.status(200).json(courses);
     } catch (err){
         console.error('Error! Fetching error:', err);
@@ -38,6 +45,16 @@ exports.getCourseById = async (req, res) => {
         if (!course) {
             return res.status(404).json({message: "Course not found"});
         }
+
+        if(req.user.role === 'student') {
+            const student = await User.findByPk(req.user.id);
+            const isEnrolled = await course.hasUser(student);
+
+            if(!isEnrolled) {
+                return res.status(403).json({message: 'You are not enrolled in this course'});
+            }
+        }
+        
         res.status(200).json(course);
     } catch (err) {
         console.error("Error frtching curse error", err);

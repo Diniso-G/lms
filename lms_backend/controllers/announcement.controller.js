@@ -23,9 +23,25 @@ exports.createAnnouncement = async (req, res) => {
 exports.getAnnouncementsForCourse = async (req, res) => {
     try{
         const courseId = req.params.courseId;
+        const course = await Course.findByPk(courseId);
+
+        if(!course) {
+            return res.status(404).json({message: 'Course not found'});
+        }
+
+        if(req.user.role === 'student') {
+            const student = await User.findByPk(req.user.id);
+            const isEnrolled = await course.hasUser(student);
+
+            if(!isEnrolled) {
+                return res.status(403).json({message: 'You are not enrolled in this course'});
+            }
+        }
+
         const announcement = await Announcement.findAll({ where: {courseId}, order: [['createdAt', 'DESC']]});
         
         res.status(200).json(announcement);
+
     } catch (err){
         console.error('Error! Announcement fetching error', err);
         res.status(500).json({message: 'Server error'});
