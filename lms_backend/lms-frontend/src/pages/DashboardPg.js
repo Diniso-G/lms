@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import '../styles/app.css';
 
@@ -12,12 +12,12 @@ function DashboardPg(){
     const [loading, setLoading] = useState(true);
     const [enrolledCourses, setEnrolledCourses] = useState([]);
     const [showDescription, setShowDescription] = useState({});
-
+/*
     const [assignmentsByCourse, setAssignmentsByCourse] = useState({});
     const [showAssignments, setShowAssignments] = useState({});
     const [selectedFiles, setSelectedFiles] = useState({});
     const [mySubmission, setMySubmission] = useState({});
-    
+    */
 
 useEffect(() => {
     axios.get("http://localhost:5000/api/courses", {
@@ -72,7 +72,7 @@ const logout = () => {
     localStorage.removeItem("token");
     navigate("/login");
 };
-
+/*
 const toggleAssignments = async (courseId) => {
     const willShow = !showAssignments[courseId];
     setShowAssignments(prev => ({ ...prev, [courseId]: willShow }));
@@ -96,9 +96,9 @@ const fetchMySubmission= async (assignmentId) => {
         const res = await axios.get(`http://localhost:5000/api/assignments/${assignmentId}/my-submission`, {headers: {Authorization: `Bearer ${token}`}});
         setMySubmission(prev => ({ ...prev, [assignmentId]: res.data}));
     } catch (err) {
-        /*
+        
         console.error(err);
-        alert(err.response?.data?.message || 'Failed to load submissions');*/
+        alert(err.response?.data?.message || 'Failed to load submissions');
     }
 };
 
@@ -129,57 +129,46 @@ const submitAssignment = async (assignmentId) => {
     }
 };
 
-
+*/
 if (!token) return <p>Please Login First</p>;
 
 if (loading) return <p> Loading courses...</p>;
 
 return (
     <div className="dashboard page-enter">
-        <h1>Student Dashboard</h1>
+        <div className="detail-header">
+            <span className="welcome-eyebrow">Student Dashboard</span>
+            <h1>My Courses</h1>
 
-        <button className='btn btn-logout' onClick={logout}>Logout</button>
-        <h2>Available Courses</h2>
-            {courses.length === 0 ? <p>No courses available</p>
-        : (
-            <ul className="course-list">
-                {courses.map(course => (
-                   <li key = {course.id} className="course-item">
-                    <div className="course-left">
-                        <strong>{course.title}</strong>
-                        {showDescription[course.id] && <p>{course.description}</p>}
-                    </div>
-                    <div className="course-right">
-                        <button className="btn-enroll"
-                            disabled ={isEnrolled(course.id)}
-                            onClick={() => enrollCourse(course.id)}>
-                            {isEnrolled(course.id) ? "Enrolled" : "Enroll"}
-                        </button>
-                        <button className="btn-desc" onClick={() => toggleDescription(course.id)}>
-                            {showDescription[course.id] ? "Hide Description" : "Show Description"}
-                        </button>
-                    </div>
-                    </li>
-                ))}
-            </ul>
-        )}
+            <button className='btn btn-logout' onClick={logout}>Logout</button>
+        </div>
 
         <h2> Enrolled Courses</h2>
         {enrolledCourses.length === 0? (
             <p>You have not enrolled in any courses yet</p>
         ):(
-            <ul className="course-list">
+            <div className="course-grid">
                 {enrolledCourses.map(course => (
-                    <li key={course.id} className="course-item">
-                        <div className="course-left">
-                            <strong>{course.title}</strong>
+                    <div key={course.id} className="course-card">
+                        <div>
+                            <h3 className="course-card-title">{course.title}</h3>
+                            <span className={course.documentPath ? "badge" : "badge badge-muted"}>
+                                {course.documentPath ? "Document available" : "No document"}
+                            </span>
                         </div>
-                        <div className="course-right">
-                            {course.documentPath? (
-                                <a href={`http://localhost:5000/uploads/courses/${course.documentPath}`}
-                                target='_blank' rel = 'noopener noreferrer'> View Document</a>
-                            ): <span> No document uploaded yet</span>}
+                        <div className="course-card-actions">
+                            <Link className="link-btn" to={`/student/course/${course.id}`} state={{ courseTitle: course.title}}>
+                                Open
+                            </Link>
+                            <Link className="link-btn link-btn-outline" to={`/student/course/${course.id}/assignments`} state={{ courseTitle: course.title}}>
+                                Assignment
+                            </Link>
+                            <Link className="link-btn link-btn-outline" to={`/student/course/${course.id}/announcements`} state={{ courseTitle: course.title}}>
+                                Announcement
+                            </Link>
                         </div>
+
+                        {/*
 
                         <div className="assignment-section">
                             <button className="btn btn-desc" onClick={() => toggleAssignments(course.id)}>
@@ -227,10 +216,38 @@ return (
                                 )
                             )}
                         </div>
+                        */}
+                    </div>
+                    
+                ))}
+            </div>
+        )}
+
+        <h2>Available Courses</h2>
+            {courses.length === 0 ? <p>No courses available</p>
+        : (
+            <ul className="course-list">
+                {courses.map(course => (
+                   <li key = {course.id} className="course-item">
+                    <div className="course-left">
+                        <strong>{course.title}</strong>
+                        {showDescription[course.id] && <p>{course.description}</p>}
+                    </div>
+                    <div className="course-right">
+                        <button className="btn-enroll"
+                            disabled ={isEnrolled(course.id)}
+                            onClick={() => enrollCourse(course.id)}>
+                            {isEnrolled(course.id) ? "Enrolled" : "Enroll"}
+                        </button>
+                        <button className="btn-desc" onClick={() => toggleDescription(course.id)}>
+                            {showDescription[course.id] ? "Hide Description" : "Show Description"}
+                        </button>
+                    </div>
                     </li>
                 ))}
             </ul>
         )}
+
     </div>
 );
 

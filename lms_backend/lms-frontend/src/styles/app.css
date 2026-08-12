@@ -33,7 +33,7 @@ html, body, #root {
     padding: 0;
 }
 /*Welcome*/
-.welcome-section{
+.welcome-section, .assignment-section, .submission-section, .announcement-section{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -349,13 +349,13 @@ form p {
     color: white;
 }
 
-.course-list, .user-list{
+.course-list, .user-list, .assignment-list, .submission-list, .announcement-list {
     list-style-type: none;
     padding: 0;
     width: 95%;
 }
 
-.course-item, .user-item{
+.course-item, .user-item, .assignment-item, .submission-item, .announcement-item {
     padding: 12px 20px;
     border-bottom: 1px solid #ddd;
     display: flex;

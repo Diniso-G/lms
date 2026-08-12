@@ -9,6 +9,10 @@ import AdminDashboard from './pages/AdminDashboard';
 import CourseDetailLecturer from './pages/CourseDetailLecturer';
 import AssignmentsLecturer from './pages/AssignmentsLecturer';
 import AnnouncementsLecturer from './pages/AnnouncementsLecturer';
+import CourseDetailStudent from './pages/CourseDetailStudent';
+import AssignmentsStudent from './pages/AssignmentsStudent';
+import AnnouncementsStudent from './pages/AnnouncementsStudent';
+
 
 import './styles/app.css';
 
@@ -47,8 +51,10 @@ function Navbar(){
     <nav className='navbar'>
       <NavLink to='/' className="brand">Edify</NavLink>
       <NavLink to='/'   end className={({isActive}) => isActive ? 'active' : ''}>Home</NavLink>
+      {/*
       <NavLink to='/register'    className={({isActive}) => isActive ? 'active' : ''}>Register</NavLink>
       <NavLink to='/login'   className={({isActive}) => isActive ? 'active' : ''}>Login</NavLink>
+      */}
       <NavLink to={dashboardPath} className={({isActive}) => isActive ? 'active' : ''}>Dashboard</NavLink>
 
     </nav>
@@ -72,6 +78,10 @@ function App(){
           <Route path='/register' element={<RegistrationForm/>}/>
           <Route path='/login' element={<LoginForm/>}/>
           <Route path='/dashboard' element={<DashboardPg/>}/>
+          <Route path='/student/course/:id' element={<CourseDetailStudent/>}/>
+          <Route path='/student/course/:id/assignments' element={<AssignmentsStudent/>}/>
+          <Route path='/student/course/:id/announcements' element={<AnnouncementsStudent/>}/>
+          
           <Route path='/lecturer-dashboard' element={<LecturerDashboard/>}/>
           <Route path='/lecturer/course/:id' element={<CourseDetailLecturer/>}/>
           <Route path='/lecturer/course/:id/assignments' element={<AssignmentsLecturer/>}/>
